@@ -1,0 +1,74 @@
+---
+- name: make install directory....
+  become: yes
+  become_user: root
+  with_items:
+    - d: '{{conscript_install_dir}}'
+    - d: '{{conscript_install_bin_dir}}'
+    - d: '{{conscript_install_lc_dir}}'
+  file:
+    path: '{{item.f}}'
+    state: directory
+    mode: '{{item.m|default("0755")}}'
+
+- name: download launch config...
+  become: yes
+  become_user: root
+  with_items:
+    - u: '{{conscript_lc_url}}'
+      d: '{{conscript_install_lc_target}}'
+    - u: '{{conscript_launcher_url}}'
+      d: '{{conscript_install_dir}}/{{conscript_launcher_jar}}'
+  get_url:
+    url: '{{item.u}}'
+    dest: '{{item.d}}'
+    mode: '{{item.m|default("0644"}}'
+
+- name: link sbt-launcher.jar...
+  become: yes
+  become_user: root
+  file:
+    src: '{{conscript_install_dir}}/{{conscript_launcher_jar}}'
+    dest: '{{conscript_install_dir}}/sbt-launch.jar'
+    state: link
+    
+- name: etch boot directory into conscript config...
+  become: yes
+  become_user: root
+  blockinfile:
+    path: '{{conscript_install_lc_target}}'
+    block: |
+      [boot]
+        directory: {{conscript_install_boot_dir}}
+
+- name: write cs...
+  become: yes
+  become_user: root
+  with_items:
+    - f: cs
+      d: '{{conscript_install_bin_dir}}'
+      m: '0755'
+  template:
+    src: '{{item.f}}.j2'
+    dest: '{{item.d}}/{{item.f}}'
+    mode: '{{item.m}}'
+
+- name: link versioned cs install directory
+  become: yes
+  become_user: root
+  file:
+    src: '{{conscript_install_dir}}'
+    dest: '{{conscript_install_link_dir}}'
+    state: link
+
+- name: add conscript to the default path...
+  become: yes
+  become_user: root
+  with_items:
+    - f: cs.sh
+      d: /etc/profile.d
+  template:
+    src: '{{item.f}}.j2'
+    dest: '{{item.d}}/{{item.f}}'
+    mode: '{{item.m|default("0644")}}'
+    

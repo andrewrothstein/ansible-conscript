@@ -1,0 +1,5 @@
+---
+# defaults file for conscript
+conscript_install_parent_dir: /usr/local
+conscript_ver: v0.5.1
+

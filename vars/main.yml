@@ -1,0 +1,16 @@
+---
+# vars file for conscript
+conscript_lc_url: https://raw.githubusercontent.com/foundweekends/conscript/{{conscript_ver}}/src/main/conscript/cs/launchconfig
+
+conscript_launcher_ver: '1.0.0'
+conscript_launcher_jar: launcher-{{conscript_launcher_ver}}.jar
+conscript_launcher_url: https://oss.sonatype.org/content/repositories/public/org/scala-sbt/launcher/{{conscript_launcher_ver}}/{{conscript_launcher_jar}}
+
+conscript_install_dir: '{{conscript_install_parent_dir}}/conscript-{{conscript_ver}}'
+conscript_install_link_dir: '{{conscript_install_parent_dir}}/conscript'
+conscript_install_bin_dir: '{{conscript_install_dir}}/bin'
+
+conscript_install_lc_dir: '{{conscript_install_dir}}/foundweekends/conscript/cs'
+conscript_install_lc_target: '{{conscript_install_lc_dir}}/launchconfig'
+
+conscript_install_boot_dir: '{{conscript_install_dir}}/boot'
