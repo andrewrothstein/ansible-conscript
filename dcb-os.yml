@@ -1,7 +1,3 @@
-- alpine_3.3
-- alpine_3.4
-- alpine_3.5
-- alpine_edge
 - centos_7
 - debian_jessie
 - fedora_23
